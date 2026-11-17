@@ -60,13 +60,11 @@ GENET trains a discrete graph diffusion model to capture the original data distr
 
 Given an explanatory subgraph, GENET samples paired graphs under the control and treatment conditions defined by the framework.
 
-### 3. Estimate the Subgraph Effect
 
-GENET evaluates the target GNN on the sampled graph pairs and uses the paired prediction differences to estimate the conditional average treatment effect of the explanatory subgraph.
-
-### 4. Test Statistical Significance
-
+### 3. Estimate the Subgraph Effect & Test Statistical Significance
+ GENET evaluates the target GNN on the sampled graph pairs and uses the paired prediction differences to estimate the conditional average treatment effect of the explanatory subgraph.
 GENET applies a paired sign-flip test to assess the statistical significance of the estimated effect.
+
 
 > Statistical validity depends on the assumptions and sampling procedure described in the paper. A significant result supports the tested effect under this setup; it does not, by itself, establish that an explanation is unique or complete.
 
@@ -87,38 +85,66 @@ cd GENET
 
 Prepare the following inputs:
 
-- **Graph dataset:** Data used to learn the graph distribution.
-- **Target GNN:** A trained model whose predictions will be explained.
+- **Graph dataset:** MUTAG and BA2.
+- **Target GNN:** src/gnn_models/ba2motif_gnn.py, src/gnn_models/mutag_gnn.py.
 - **Explanatory subgraphs:** Subgraphs identified by an existing GNN explainer.
 
-**TODO:** Document supported datasets, preprocessing steps, checkpoint formats, and the required format for explanatory subgraphs.
+### Platforms
+- Download anaconda/miniconda if needed
+- Create a python environment:
+```bash
+conda create -c conda-forge -n GENET python=3.9
+conda activate GENET
+```
+- Install the nvcc drivers for your cuda version and pytorch:
+```bash
+conda install -c "nvidia/label/cuda-11.8.0" cuda
+pip3 install torch==2.0.1 --index-url https://download.pytorch.org/whl/cu118
+pip3 install -r requirements.txt
+```
+
 
 ### Running GENET
 
 The evaluation workflow consists of:
 
 1. Train or load a discrete graph diffusion model.
-2. Load the target GNN and explanatory subgraphs.
-3. Sample control–treatment graph pairs.
-4. Estimate the subgraph effects on GNN predictions.
-5. Run the paired sign-flip test and report the results.
+```bash
+cd GENET
+python src/main.py dataset=MUTAG
+```
 
-**TODO:** Add executable commands and configuration examples for each step.
+2. Sample control–treatment graph pairs.
+```bash
+cd GENET
+python src/RCT.py n_pairs=1000
+```
+3. Estimate the subgraph effects on GNN predictions and run the paired sign-flip test and report the results.
+```bash
+cd GENET
+python src/flip_test.py
+```
+
+
+<!-- **TODO:** Add executable commands and configuration examples for each step. -->
 
 ## Results and Reproducibility
+Unfortunately, my Google Drive account has been deleted, and I no longer have access to the checkpoints. If you have a checkpoint saved locally, I would greatly appreciate it if you could contact me at yuguanyuan@swufe.edu.cn or open a GitHub issue.
 
-The paper evaluates GENET through theoretical analysis and empirical experiments.
 
-**TODO:** Add benchmark results, pretrained checkpoints, and reproduction instructions.
 
-For reproducible evaluation, document:
+<!-- The paper evaluates GENET through theoretical analysis and empirical experiments. -->
+
+<!-- **TODO:** Add benchmark results, pretrained checkpoints, and reproduction instructions. -->
+
+<!-- For reproducible evaluation, document:
 
 - Dataset splits and preprocessing settings.
 - Target GNN and explainer configurations.
 - Diffusion model training and sampling settings.
 - Number of sampled graph pairs.
 - Sign-flip test configuration and significance threshold.
-- Random seeds and software versions.
+- Random seeds and software versions. -->
 
 <!-- ## Citation
 
