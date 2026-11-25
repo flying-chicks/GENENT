@@ -117,7 +117,7 @@ python src/main.py dataset=MUTAG
 2. Sample control–treatment graph pairs.
 ```bash
 cd GENET
-python src/RCT.py n_pairs=1000
+python src/generate.py n_pairs=1000
 ```
 3. Estimate the subgraph effects on GNN predictions and run the paired sign-flip test and report the results.
 ```bash
